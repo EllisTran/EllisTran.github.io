@@ -1,14 +1,12 @@
 
-var maps = [{"Sprites":[{"Category":"Mario","x":-20,"y":500,"w":60,"h":95},{"x":700,"y":100,"w":89,"h":83,"Category":"CoinBlock"},{"x":1400,"y":100,"w":89,"h":83,"Category":"CoinBlock"},{"x":2100,"y":100,"w":89,"h":83,"Category":"CoinBlock"},{"x":1050,"y":200,"w":113,"h":240,"Category":"Brick"},{"x":1680,"y":529,"w":106,"h":79,"Category":"Brick"},{"x":2371,"y":558,"w":87,"h":10,"Category":"Brick"},{"x":88,"y":320,"w":187,"h":125,"Category":"Brick"},{"x":375,"y":300,"w":122,"h":198,"Category":"Brick"},{"x":61,"y":306,"w":114,"h":98,"Category":"Brick"},{"x":664,"y":130,"w":75,"h":75,"Category":"Coin"}]}]
-
-console.log(maps[0].Sprites)
-
+var maps = [{"Sprites":[{"Category":"Mario","x":21,"y":500,"w":60,"h":95},{"x":700,"y":300,"w":89,"h":83,"Category":"CoinBlock"},{"x":1400,"y":300,"w":89,"h":83,"Category":"CoinBlock"},{"x":2100,"y":300,"w":89,"h":83,"Category":"CoinBlock"},{"x":306,"y":500,"w":94,"h":93,"Category":"Brick"},{"x":407,"y":398,"w":120,"h":103,"Category":"Brick"},{"x":540,"y":510,"w":0,"h":0,"Category":"Brick"},{"x":532,"y":499,"w":106,"h":99,"Category":"Brick"},{"x":704,"y":567,"w":89,"h":22,"Category":"Brick"},{"x":810,"y":238,"w":116,"h":90,"Category":"Brick"},{"x":930,"y":330,"w":88,"h":90,"Category":"Brick"},{"x":1017,"y":139,"w":99,"h":94,"Category":"Brick"},{"x":1118,"y":70,"w":77,"h":71,"Category":"Brick"},{"x":1099,"y":341,"w":84,"h":95,"Category":"Brick"},{"x":1228,"y":480,"w":95,"h":81,"Category":"Brick"},{"x":1398,"y":527,"w":77,"h":59,"Category":"Brick"},{"x":1730,"y":527,"w":70,"h":56,"Category":"Brick"},{"x":1808,"y":453,"w":70,"h":70,"Category":"Brick"},{"x":1881,"y":527,"w":64,"h":60,"Category":"Brick"},{"x":1963,"y":560,"w":56,"h":35,"Category":"Brick"},{"x":2050,"y":500,"w":88,"h":64,"Category":"Brick"},{"x":2359,"y":220,"w":111,"h":95,"Category":"Brick"},{"x":2537,"y":222,"w":119,"h":92,"Category":"Brick"},{"x":2293,"y":434,"w":67,"h":100,"Category":"Brick"},{"x":2361,"y":488,"w":308,"h":39,"Category":"Brick"},{"x":2658,"y":432,"w":88,"h":105,"Category":"Brick"},{"x":2494,"y":372,"w":16,"h":16,"Category":"Brick"},{"x":2842,"y":121,"w":128,"h":31,"Category":"Brick"},{"x":2889,"y":153,"w":33,"h":132,"Category":"Brick"},{"x":2979,"y":126,"w":33,"h":157,"Category":"Brick"},{"x":3009,"y":196,"w":50,"h":27,"Category":"Brick"},{"x":3038,"y":202,"w":33,"h":83,"Category":"Brick"},{"x":3097,"y":202,"w":31,"h":83,"Category":"Brick"},{"x":3104,"y":205,"w":75,"h":27,"Category":"Brick"},{"x":3160,"y":208,"w":28,"h":74,"Category":"Brick"},{"x":3099,"y":246,"w":87,"h":10,"Category":"Brick"},{"x":3215,"y":209,"w":34,"h":88,"Category":"Brick"},{"x":3221,"y":210,"w":106,"h":28,"Category":"Brick"},{"x":3296,"y":218,"w":34,"h":72,"Category":"Brick"},{"x":3299,"y":274,"w":30,"h":26,"Category":"Brick"},{"x":3349,"y":135,"w":50,"h":172,"Category":"Brick"},{"x":3365,"y":189,"w":134,"h":55,"Category":"Brick"},{"x":3448,"y":141,"w":49,"h":101,"Category":"Brick"},{"x":3385,"y":230,"w":44,"h":31,"Category":"Brick"},{"x":3411,"y":247,"w":43,"h":32,"Category":"Brick"},{"x":3437,"y":269,"w":49,"h":32,"Category":"Brick"},{"x":3460,"y":288,"w":42,"h":18,"Category":"Brick"},{"x":3542,"y":140,"w":108,"h":54,"Category":"Brick"},{"x":3545,"y":149,"w":25,"h":94,"Category":"Brick"},{"x":3551,"y":218,"w":89,"h":36,"Category":"Brick"},{"x":3609,"y":233,"w":35,"h":62,"Category":"Brick"},{"x":3552,"y":265,"w":84,"h":40,"Category":"Brick"},{"x":3669,"y":96,"w":89,"h":156,"Category":"Brick"},{"x":3676,"y":277,"w":72,"h":25,"Category":"Brick"}]}]
 
 
 class Sprite
 {
 	constructor(x, y,w,h, image_url, model)
 	{
+		//this.variable creates the classes member variables
 		this.mario_imagesRight = [];
 		this.x = x;
 		this.y = y;
@@ -18,52 +16,12 @@ class Sprite
 		this.vert_vel = 0;
 		this.image.src = image_url;
 		this.model = model;
-		//this.move = move_method;
-		
-		//this. refers to this class's variable
-	}
-
-	set_destination(x, y)
-	{
-		this.dest_x = x;
-		this.dest_y = y;
-	}
-
-	ignore_click(x, y)
-	{
-	}
-
-	move(dx, dy)
-	{
-		this.dest_x = this.x + dx;
-		this.dest_y = this.y + dy;
-	}
-
-	go_toward_destination()
-	{
-		if(this.dest_x === undefined)
-			return;
-		if(this.x < this.dest_x)
-			this.x++;
-		else if(this.x > this.dest_x)
-			this.x--;
-		if(this.y < this.dest_y)
-			this.y++;
-		else if(this.y > this.dest_y)
-			this.y--;
-	}
-
-	update() 
-	{
-
 	}
 
 	checkCollision(model, mario, sprite)
 	{
-		if (mario.x + mario.w < sprite.x)
-		{
+		if (mario.x + mario.w < sprite.x)		//Checks to see if Mario is colliding with the left side of the sprite
 			return false;
-		}
 		if (mario.x > sprite.x + sprite.w)      //Checks to see if Mario is colliding with the right side of the sprite
             return false;
         if (mario.y + mario.h < sprite.y)       //Checks to see if Mario is colliding with the top of the sprite
@@ -97,33 +55,64 @@ class Sprite
 			mario.vert_vel = 0.0;
 			if (sprite.isCoinBlock() && mario.coinPop == 0)
 			{
+				mario.coinPop++;
 				sprite.coinLimit++;
 				if(sprite.coinLimit<=5)
 					model.addCoin(sprite.x, sprite.y, 75, 75);
-				//console.log(sprite.coinLimit);
+				
 			}
         }
 
 	}
 
-	sit_still()
+	go_toward_destination()
 	{
+		if(this.dest_x === undefined)
+			return;
+		if(this.x < this.dest_x)
+			this.x++;
+		else if(this.x > this.dest_x)
+			this.x--;
+		if(this.y < this.dest_y)
+			this.y++;
+		else if(this.y > this.dest_y)
+			this.y--;
 	}
 
+	set_destination(x, y)
+	{
+		this.dest_x = x;
+		this.dest_y = y;
+	}
+
+	move(dx, dy)
+	{
+		this.dest_x = this.x + dx;
+		this.dest_y = this.y + dy;
+	}
+
+	ignore_click(x, y) {}
+	sit_still() {}
+	update() {}
+
 }
-class Brick extends Sprite
+
+class Mario extends Sprite
 {
-	constructor(hor, vert, w,h,image_url, model)
-	{
-		super(hor, vert,w,h, image_url, model);
+    constructor(x, y,w,h, image_url, model)
+    {
+		super(x, y,w,h, image_url,model);				//Calls the super constructor for class Sprite
+		this.prev_X = 0;								//Previous X and Y are to calculate for Collision
+		this.prev_Y = 0;
+		this.vert_vel = 0;								//vert_vel calls for gravity and jumping to work
+		this.jumpFrame = 0;								
+		this.coinPop = 0;								//coinPop is to make sure only one coin pops out
 	}
-	isMario()
+
+	prevdestination()
 	{
-		return false;
-	}
-	isBrick()
-	{
-		return true;
+		this.prev_X = this.x;
+		this.prev_Y = this.y;
 	}
 	isCoinBlock()
 	{
@@ -134,7 +123,34 @@ class Brick extends Sprite
 		return false;
 	}
 
+	isMario() 
+	{
+		return true;
+	}
+	isBrick()
+	{
+		return false;
+	}
+
+	update()
+	{
+		this.model.camPos = this.x - 300;
+		if (this.y < 500) //Gravity
+		{
+			this.vert_vel += 2.1;
+			this.y += this.vert_vel;
+		}
+		if (this.y >= 500) //Stops gravity
+		{
+			this.jumpFrame = 0;
+			this.y = 500;
+			this.vert_vel = 0.0;
+			this.coinPop = 0;
+		}
+		this.jumpFrame++;
+	}
 }
+
 class CoinBlock extends Sprite
 {
 	constructor(x, y, w, h , image_url, model)
@@ -161,39 +177,20 @@ class CoinBlock extends Sprite
 		return false;
 	}
 }
-class Mario extends Sprite
+
+class Brick extends Sprite
 {
-    constructor(x, y,w,h, image_url, model)
-    {
-		super(x, y,w,h, image_url,model);
-		this.prev_X = 0;
-		this.prev_Y = 0;
-		this.vert_vel = 0;
-		this.jumpFrame = 0;
-		this.coinPop = 0;
-
-	}
-	update()
+	constructor(hor, vert, w,h,image_url, model)
 	{
-		this.model.camPos = this.x - 300;
-		if (this.y < 300) //Gravity
-		{
-			this.vert_vel += 2.1;
-			this.y += this.vert_vel;
-		}
-		else if (this.y >= 300) //Stops gravity
-		{
-			this.jumpFrame = 0;
-			this.y = 300;
-			this.vert_vel = 0.0;
-		}
-		this.jumpFrame++;
+		super(hor, vert,w,h, image_url, model);
 	}
-
-	prevdestination()
+	isMario()
 	{
-		this.prev_X = this.x;
-		this.prev_Y = this.y;
+		return false;
+	}
+	isBrick()
+	{
+		return true;
 	}
 	isCoinBlock()
 	{
@@ -204,24 +201,18 @@ class Mario extends Sprite
 		return false;
 	}
 
-	isMario() 
-	{
-		return true;
-	}
-	isBrick()
-	{
-		return false;
-	}
 }
+
+
 class Coin extends Sprite
 {
 	constructor(x, y, w, h, image_url, model)
 	{
 		super(x, y, w , h, image_url, model);
 		this.moveCoinX = Math.floor( Math.random()*10);
-		console.log(this.moveCoinX);
 		this.vert_vel = -20.0;
 	}
+
 	isCoinBlock()
 	{
 		return false;
@@ -231,19 +222,25 @@ class Coin extends Sprite
 	{
 		return false;
 	}
+
 	isBrick()
 	{
 		return false;
 	}
+
+	isCoin()
+	{
+		return true;
+	}
+
 	update()
 	{
-		
-		if (this.y < 300)
+		if (this.y < 500)
 		{
-			this.vert_vel += 1.2;
+			this.vert_vel += 1.7;
 			this.y += this.vert_vel;
 
-			this.vert_vel+= 2.1;
+			this.vert_vel+= 3.1;
 
 			this.y+=this.vert_vel;
 			if (this.moveCoinX <=5)
@@ -251,16 +248,10 @@ class Coin extends Sprite
 			else
 				this.x-= this.moveCoinX;
 		}
-
-		if (this.y >= 300)
+		if (this.y >= 500)
 		{
-			this.y = 300;
 			this.model.removeCoin(this);
 		}
-	}
-	isCoin()
-	{
-		return true;
 	}
 }
 class Model
@@ -269,20 +260,15 @@ class Model
 	{
 		this.camPos=0;
 		this.sprites = [];
-		//this.sprites.push(new Sprite(0, 100, 51, 46, "lettuce.png", this));
-		this.mario = new Mario(300,300,65,90, "mariofrontwards1.png", this);
-		// this.brick = new Brick(300, 0, "dirtGround.png", 0, 0 , this);
+		this.mario = new Mario(300,0,65,90, "mariofrontwards1.png", this);
 		this.sprites.push(this.mario);
-		// this.sprites.push(this.brick);
 		this.marioRight = false;
 
 		for (let i = 1; i < maps[0].Sprites.length; i++)
 		{
 			if(maps[0].Sprites[i].Category === "Brick")
 			{
-			
 				this.sprites.push(new Brick(maps[0].Sprites[i].x, maps[0].Sprites[i].y, maps[0].Sprites[i].w, maps[0].Sprites[i].h,"dirtGround.png" , this));
-				
 			}
 			else if (maps[0].Sprites[i].Category === "CoinBlock")
 			{
@@ -304,35 +290,25 @@ class Model
 	{
 		this.coin = new Coin(x, y , w ,h, "coin.png", this);
 		this.sprites.push(this.coin);
-		//console.log(this.coin);
-	}
-
-	update()
-	{
-		//console.log(this.sprites);
-
-		for(let i = 0; i < this.sprites.length; i++)
-		{
-			let s = this.sprites[i];
-			if (s.isBrick())
-			{
-				if(s.checkCollision(this, this.mario, s));
-			}
-			if (s.isCoinBlock())
-			{
-				if(s.checkCollision(this, this.mario, s));
-			}
-			s.update();
-
-			console.log(this.mario.x);
-		}
-
 	}
 
 	move(dx, dy)
 	{
 		this.sprites.move(dx, dy);
 	}	
+	
+	update()
+	{
+		for(let i = 0; i < this.sprites.length; i++)
+		{
+			let s = this.sprites[i];
+			if (s.isBrick())
+				if(s.checkCollision(this, this.mario, s));
+			if (s.isCoinBlock())
+				if(s.checkCollision(this, this.mario, s));
+			s.update();
+		}
+	}
 }
 
 class View
@@ -363,12 +339,11 @@ class View
 	update()
 	{
 		let ctx = this.canvas.getContext("2d");
-		ctx.clearRect(0, 0, 1000, 500);
 
 		for(let i = 0;i < 5; i++)
 		{
 			ctx.drawImage(this.backgroundImage, (i*1800) - (this.model.camPos/10), -200);
-			ctx.drawImage(this.floorImage, (i*500) - (this.model.camPos/5), 400, 1000, 200);
+			ctx.drawImage(this.floorImage, (i*500) - (this.model.camPos/5), 600,1000, 200);
 		}
 		for(let i = 0; i < this.model.sprites.length; i++)
 		{
@@ -382,32 +357,21 @@ class View
 					ctx.drawImage(this.marioPics[this.cycle],300, sprite.y, sprite.w, sprite.h);
 					this.cycle++;
 					if(this.cycle == 4)
-					{
 						this.cycle = 0;
-					}
 				}
-
 			}
-			else if (sprite.isBrick()){
+			else if (sprite.isBrick())
 				ctx.drawImage(sprite.image, sprite.x-this.model.camPos, sprite.y, sprite.w, sprite.h);
-			}
 			else if (sprite.isCoinBlock())
 			{
-				if (sprite.coinLimit < 5){
+				if (sprite.coinLimit < 5)
 					ctx.drawImage(sprite.image, sprite.x-this.model.camPos, sprite.y, sprite.w, sprite.h);
-					//sprite.coinLimit++;
-				}
 				else
 					ctx.drawImage(sprite.emptyImage, sprite.x-this.model.camPos, sprite.y, sprite.w, sprite.h);
 			}
-			else if (sprite.isCoin()){
-				//console.log("DRAWING A COIN");
-				//console.log(sprite.image);
-				//console.log(sprite.y);
+			else if (sprite.isCoin())
 				ctx.drawImage(sprite.image, sprite.x-this.model.camPos, sprite.y, sprite.w, sprite.h);
-			}
 		}
-		
 	}
 }
 
@@ -432,12 +396,6 @@ class Controller
 		document.addEventListener('mousedown', function(event) {self.mousePressed(event); }, false);
 	}
 
-	mousePressed(event)
-	{
-		this.mouseDownX = event.pageX - this.view.canvas.offsetLeft;
-		this.mouseDownY = event.pageY - this.view.canvas.offsetTop;
-	}
-
 	mouseReleased(event)
 	{
 		//console.log("MouseClick");
@@ -449,11 +407,14 @@ class Controller
 		let right = Math.max(x1, x2);
 		let top = Math.min(y1, y2);
 		let bot = Math.max(y1, y2);
-		//console.log("CamPos" + this.model.camPos);
 		this.model.addBrick(left + this.model.camPos, top, right - left, bot - top);
 	}
 
-
+	mousePressed(event)
+	{
+		this.mouseDownX = event.pageX - this.view.canvas.offsetLeft;
+		this.mouseDownY = event.pageY - this.view.canvas.offsetTop;
+	}
 
 	keyDown(event)
 	{
@@ -462,43 +423,44 @@ class Controller
 			this.key_right = true;
 			this.model.marioRight = true;
 		}
-		else if(event.keyCode == 37) this.key_left = true;
-		else if(event.keyCode == 38) this.key_up = true;
-		else if(event.keyCode == 40) this.key_down = true;
-		else if (event.keyCode == 32){
+		else if(event.keyCode == 37) 
+			this.key_left = true;
+		else if(event.keyCode == 38) 
+			this.key_up = true;
+		else if(event.keyCode == 40) 
+			this.key_down = true;
+		else if (event.keyCode == 32) 
 			this.keySpace = true;
-		} 
+		
 	}
 
 	keyUp(event)
 	{
-		if(event.keyCode == 39){
-
-		 this.key_right = false;
-		 this.model.marioRight = false;
+		if(event.keyCode == 39)
+		{
+			this.key_right = false;
+			this.model.marioRight = false;
 		}
-		else if(event.keyCode == 37) this.key_left = false;
-		else if(event.keyCode == 38) this.key_up = false;
-		else if(event.keyCode == 40) this.key_down = false;
-		else if (event.keyCode == 32) this.keySpace = false;
+		else if(event.keyCode == 37) 
+			this.key_left = false;
+		else if(event.keyCode == 38) 
+			this.key_up = false;
+		else if(event.keyCode == 40) 
+			this.key_down = false;
+		else if (event.keyCode == 32) 
+			this.keySpace = false;
 	}
 
 	update()
 	{
-
 		this.mario.prevdestination();
-
 		if(this.key_left) 
-		{
 			this.mario.x -= 10;
-		}
 		if(this.key_right)
-		{
 			this.mario.x += 10;
-		}
+			
 		if (this.keySpace)
 		{
-			//console.log("SPACE");
 			if (this.mario.jumpFrame < 5)
 			{
 				this.mario.vert_vel -= 8.0;
