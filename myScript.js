@@ -109,7 +109,7 @@ class Mario extends Sprite
 		this.coinPop = 0;								//coinPop is to make sure only one coin pops out
 	}
 
-	prevdestination()
+	prevDestination()
 	{
 		this.prev_X = this.x;
 		this.prev_Y = this.y;
@@ -263,6 +263,7 @@ class Model
 		this.mario = new Mario(300,0,65,90, "mariofrontwards1.png", this);
 		this.sprites.push(this.mario);
 		this.marioRight = false;
+		this.marioLeft = false;
 
 		for (let i = 1; i < maps[0].Sprites.length; i++)
 		{
@@ -317,12 +318,16 @@ class View
 	{
 		this.model = model;
 		this.canvas = document.getElementById("myCanvas");
-		this.marioPics= [];
-		this.marioSource = ["mariofrontwards1.png", "mariofrontwards2.png", "mariofrontwards3.png", "mariofrontwards4.png", "mariofrontwards5.png"];
+		this.marioPicsRight= [];
+		this.marioPicsLeft = [];
+		this.marioSourceRight = ["mariofrontwards1.png", "mariofrontwards2.png", "mariofrontwards3.png", "mariofrontwards4.png", "mariofrontwards5.png"];
+		this.marioSourceLeft = ["mariobackwards1.png","mariobackwards2.png","mariobackwards3.png","mariobackwards4.png","mariobackwards5.png"];
 		for (let i = 0; i < 5; i++)
 		{
-			this.marioPics.push(new Image());
-			this.marioPics[i].src = this.marioSource[i];
+			this.marioPicsRight.push(new Image());
+			this.marioPicsLeft.push(new Image());
+			this.marioPicsRight[i].src = this.marioSourceRight[i];
+			this.marioPicsLeft[i].src = this.marioSourceLeft[i];
 		}
 		this.floorImage = new Image();
 		this.backgroundImage = new Image();
@@ -334,6 +339,7 @@ class View
 		this.switching = -1;
 		this.jumpFrame = 0;
 		this.coinPop= 0;
+		this.cycleLeft = 0;
 	}
 
 	update()
@@ -351,14 +357,30 @@ class View
 			if(sprite.isMario())
 			{
 				if (this.switching == -1)
-					ctx.drawImage(this.marioPics[this.cycle], 300, sprite.y,sprite.w, sprite.h);
+				{
+					ctx.drawImage(this.marioPicsRight[this.cycle], 300, sprite.y,sprite.w, sprite.h);
+				}
+				else if (this.switching == 0)
+				{
+					ctx.drawImage(this.marioPicsLeft[this.cycleLeft], 300, sprite.y, sprite.w, sprite.h);
+				}
 				if (this.model.marioRight)
 				{
-					ctx.drawImage(this.marioPics[this.cycle],300, sprite.y, sprite.w, sprite.h);
+					ctx.drawImage(this.marioPicsRight[this.cycle],300, sprite.y, sprite.w, sprite.h);
 					this.cycle++;
 					if(this.cycle == 4)
 						this.cycle = 0;
+						this.switching = -1;
 				}
+				if (this.model.marioLeft)
+				{
+					ctx.drawImage(this.marioPicsLeft[this.cycleLeft], 300, sprite.y, sprite.w, sprite.h);
+					this.cycleLeft++;
+					this.switching = 0;
+					if(this.cycleLeft == 4)
+						this.cycleLeft = 0;
+				}
+
 			}
 			else if (sprite.isBrick())
 				ctx.drawImage(sprite.image, sprite.x-this.model.camPos, sprite.y, sprite.w, sprite.h);
@@ -424,7 +446,10 @@ class Controller
 			this.model.marioRight = true;
 		}
 		else if(event.keyCode == 37) 
+		{
 			this.key_left = true;
+			this.model.marioLeft = true;
+		}
 		else if(event.keyCode == 38) 
 			this.key_up = true;
 		else if(event.keyCode == 40) 
@@ -442,7 +467,10 @@ class Controller
 			this.model.marioRight = false;
 		}
 		else if(event.keyCode == 37) 
+		{
+			this.model.marioLeft = false;
 			this.key_left = false;
+		}
 		else if(event.keyCode == 38) 
 			this.key_up = false;
 		else if(event.keyCode == 40) 
@@ -453,7 +481,7 @@ class Controller
 
 	update()
 	{
-		this.mario.prevdestination();
+		this.mario.prevDestination();
 		if(this.key_left) 
 			this.mario.x -= 10;
 		if(this.key_right)
