@@ -131,6 +131,10 @@ class Mario extends Sprite
 	{
 		return false;
 	}
+	isFireball()
+	{
+		return false;
+	}
 
 	update()
 	{
@@ -176,6 +180,10 @@ class CoinBlock extends Sprite
 	{
 		return false;
 	}
+	isFireball()
+	{
+		return false;
+	}
 }
 
 class Brick extends Sprite
@@ -200,7 +208,45 @@ class Brick extends Sprite
 	{
 		return false;
 	}
+	isFireball()
+	{
+		return false;
+	}
 
+}
+
+class Fireball extends Sprite
+{
+	constructor(x,y, w, h, image_url, model)
+	{
+		super(x, y, w, h, image_url, model);
+	}
+	isMario()
+	{
+		return false;
+	}
+	isBrick()
+	{
+		return false;
+	}
+	isCoinBlock()
+	{
+		return false;
+	}
+	isCoin()
+	{
+		return false;
+	}
+	isFireball()
+	{
+		return true;
+	}
+
+	update()
+	{
+		this.x += 10;
+		this.y += 5;
+	}
 }
 
 
@@ -264,7 +310,7 @@ class Model
 		this.sprites.push(this.mario);
 		this.marioRight = false;
 		this.marioLeft = false;
-
+		this.switching = -1;
 		for (let i = 1; i < maps[0].Sprites.length; i++)
 		{
 			if(maps[0].Sprites[i].Category === "Brick")
@@ -291,6 +337,13 @@ class Model
 	{
 		this.coin = new Coin(x, y , w ,h, "coin.png", this);
 		this.sprites.push(this.coin);
+	}
+
+	addFireball(x, y, w, h)
+	{
+		this.fireball = new Fireball(x, y, w, h, "fireball.png", this);
+		this.sprites.push(this.fireball);
+		console.log("Fireball adding");
 	}
 
 	move(dx, dy)
@@ -330,13 +383,14 @@ class View
 			this.marioPicsLeft[i].src = this.marioSourceLeft[i];
 		}
 		this.floorImage = new Image();
+		this.fireballImage = new Image();
+		this.fireballImage.src = "fireball.png";
 		this.backgroundImage = new Image();
 		this.floorImage.src = "dirtGround.png";
 		this.backgroundImage.src = "Background.png";
 		this.brickImage = new Image();
 		this.brickImage.src = "dirtGround.png";
 		this.cycle=0;
-		this.switching = -1;
 		this.jumpFrame = 0;
 		this.coinPop= 0;
 		this.cycleLeft = 0;
@@ -356,11 +410,11 @@ class View
 			let sprite = this.model.sprites[i];
 			if(sprite.isMario())
 			{
-				if (this.switching == -1)
+				if (this.model.switching == -1)
 				{
 					ctx.drawImage(this.marioPicsRight[this.cycle], 300, sprite.y,sprite.w, sprite.h);
 				}
-				else if (this.switching == 0)
+				else if (this.model.switching == 0)
 				{
 					ctx.drawImage(this.marioPicsLeft[this.cycleLeft], 300, sprite.y, sprite.w, sprite.h);
 				}
@@ -370,13 +424,13 @@ class View
 					this.cycle++;
 					if(this.cycle == 4)
 						this.cycle = 0;
-						this.switching = -1;
+						this.model.switching = -1;
 				}
 				if (this.model.marioLeft)
 				{
 					ctx.drawImage(this.marioPicsLeft[this.cycleLeft], 300, sprite.y, sprite.w, sprite.h);
 					this.cycleLeft++;
-					this.switching = 0;
+					this.model.switching = 0;
 					if(this.cycleLeft == 4)
 						this.cycleLeft = 0;
 				}
@@ -393,6 +447,8 @@ class View
 			}
 			else if (sprite.isCoin())
 				ctx.drawImage(sprite.image, sprite.x-this.model.camPos, sprite.y, sprite.w, sprite.h);
+			else if (sprite.isFireball())
+				ctx.drawImage(sprite.image, sprite.x - this.model.camPos, sprite.y, sprite.w, sprite.h);
 		}
 	}
 }
@@ -408,6 +464,7 @@ class Controller
 		this.key_up = false;
 		this.key_down = false;
 		this.keySpace = false;
+		this.keyF = false;
 		this.mouseDownX = 0;
 		this.mouseDownY = 0;
 		let self = this;
@@ -456,6 +513,18 @@ class Controller
 			this.key_down = true;
 		else if (event.keyCode == 32) 
 			this.keySpace = true;
+		else if (event.keyCode == 70)
+		{
+			this.keyF = true;
+			for (let i = 0; i < this.model.sprites.length; i++)
+			{
+				let s = this.model.sprites[i];
+				if (s.isMario())
+				{
+					this.model.addFireball(s.x, s.y, 70, 70);
+				}
+			}
+		}
 		
 	}
 
@@ -477,6 +546,8 @@ class Controller
 			this.key_down = false;
 		else if (event.keyCode == 32) 
 			this.keySpace = false;
+		else if (event.keyCode == 70)
+			this.keyF = false;
 	}
 
 	update()
